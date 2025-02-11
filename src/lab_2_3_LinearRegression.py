@@ -109,7 +109,10 @@ def evaluate_regression(y_true, y_pred):
     N = len(y_true)
     # R^2 Score
     # TODO: Calculate R^2
-    r_squared = None
+    n = len(y_true)
+    rss = np.sum([(y_true[i]-y_pred[i])**2 for i in range(n)])
+    tss = np.sum([(y_true[i]-np.mean(y_true))**2 for i in range(n)])
+    r_squared = 1-(rss/tss)
 
     # Root Mean Squared Error
     # TODO: Calculate RMSE
