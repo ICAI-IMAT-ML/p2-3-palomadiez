@@ -88,7 +88,10 @@ class LinearRegressor:
             predictions = self.intercept + self.coefficients*X
         else:
             # TODO: Predict when X is more than one variable
-            predictions = 
+            ones = np.ones((X.shape[0], 1))
+            X = np.hstack([ones, X])
+            w = np.hstack([self.intercept, self.coefficients])
+            predictions = np.dot(X,w) 
         return predictions
 
 
