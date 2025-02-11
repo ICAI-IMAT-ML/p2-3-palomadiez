@@ -36,8 +36,14 @@ class LinearRegressor:
             X = X.reshape(1, -1)
 
         # TODO: Train linear regression model with only one coefficient
-        self.coefficients = None
-        self.intercept = None
+        meanX = np.mean(X)
+        meanY = np.mean(y)
+        n = len(X)
+        s_xy = (np.sum([X[i]*y[i] for i in range(n)])/n)-(meanX*meanY)
+        s_x = (np.sum([X[i]*X[i] for i in range(n)])/n)-(meanX*meanX)
+
+        self.coefficients = s_xy/s_x
+        self.intercept = meanY - meanX*self.coefficients
 
     # This part of the model you will only need for the last part of the notebook
     def fit_multiple(self, X, y):
@@ -55,8 +61,11 @@ class LinearRegressor:
             None: Modifies the model's coefficients and intercept in-place.
         """
         # TODO: Train linear regression model with multiple coefficients
-        self.intercept = None
-        self.coefficients = None
+        ones = np.ones((X.shape[0], 1))
+        X = np.hstack([ones, X])
+        w = np.dot(np.linalg.inv((np.dot(np.transpose(X),X))), np.dot(np.transpose(X), y))
+        self.intercept = w[0]
+        self.coefficients = w[1:]
 
     def predict(self, X):
         """
@@ -76,10 +85,10 @@ class LinearRegressor:
 
         if np.ndim(X) == 1:
             # TODO: Predict when X is only one variable
-            predictions = None
+            predictions = self.intercept + self.coefficients*X
         else:
             # TODO: Predict when X is more than one variable
-            predictions = None
+            predictions = 
         return predictions
 
 
@@ -94,17 +103,18 @@ def evaluate_regression(y_true, y_pred):
     Returns:
         dict: A dictionary containing the R^2, RMSE, and MAE values.
     """
+    N = len(y_true)
     # R^2 Score
     # TODO: Calculate R^2
     r_squared = None
 
     # Root Mean Squared Error
     # TODO: Calculate RMSE
-    rmse = None
+    rmse = np.sqrt((1/N)*np.sum([(y_true[i]-y_pred[i])**2 for i in range(N)]))
 
     # Mean Absolute Error
     # TODO: Calculate MAE
-    mae = None
+    mae = (1/N)*np.sum([np.abs(y_true[i]-y_pred[i]) for i in range(N)])
 
     return {"R2": r_squared, "RMSE": rmse, "MAE": mae}
 
@@ -115,6 +125,7 @@ def evaluate_regression(y_true, y_pred):
 def sklearn_comparison(x, y, linreg):
     ### Compare your model with sklearn linear regression model
     # TODO : Import Linear regression from sklearn
+
 
     # Assuming your data is stored in x and y
     # TODO : Reshape x to be a 2D array, as scikit-learn expects 2D inputs for the features
