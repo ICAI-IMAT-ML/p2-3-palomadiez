@@ -2,6 +2,7 @@
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.linear_model import *
 
 
 class LinearRegressor:
@@ -131,15 +132,15 @@ def evaluate_regression(y_true, y_pred):
 def sklearn_comparison(x, y, linreg):
     ### Compare your model with sklearn linear regression model
     # TODO : Import Linear regression from sklearn
-
+    # Importado arriba
 
     # Assuming your data is stored in x and y
     # TODO : Reshape x to be a 2D array, as scikit-learn expects 2D inputs for the features
-    x_reshaped = None
+    x_reshaped = x.reshape(-1, 1)
 
     # Create and train the scikit-learn model
     # TODO : Train the LinearRegression model
-    sklearn_model = None
+    sklearn_model = LinearRegression()
     sklearn_model.fit(x_reshaped, y)
 
     # Now, you can compare coefficients and intercepts between your model and scikit-learn's model
@@ -158,10 +159,10 @@ def anscombe_quartet():
     # Load Anscombe's quartet
     # These four datasets are the same as in slide 19 of chapter 02-03: Linear and logistic regression
     anscombe = sns.load_dataset("anscombe")
-
+    
     # Anscombe's quartet consists of four datasets
     # TODO: Construct an array that contains, for each entry, the identifier of each dataset
-    datasets = None
+    datasets = ["I", "II", "III", "IV"]
 
     models = {}
     results = {"R2": [], "RMSE": [], "MAE": []}
@@ -169,7 +170,7 @@ def anscombe_quartet():
 
         # Filter the data for the current dataset
         # TODO
-        data = None
+        data = anscombe[anscombe["dataset"]==dataset]
 
         # Create a linear regression model
         # TODO
