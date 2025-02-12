@@ -155,6 +155,17 @@ def sklearn_comparison(x, y, linreg):
     }
 
 def anscombe_quartet():
+    """Loads Anscombe's quartet, fits custom linear regression models, and evaluates performance.
+ 
+    Returns:
+        tuple: A tuple containing:
+            - anscombe (pandas.DataFrame): The Anscombe's quartet dataset.
+            - datasets (list): A list of unique dataset identifiers in Anscombe's quartet.
+            - models (dict): A dictionary where keys are dataset identifiers and values
+              are the fitted custom linear regression models.
+            - results (dict): A dictionary containing evaluation metrics (R2, RMSE, MAE)
+              for each dataset.
+    """
     # Load Anscombe's quartet
     # These four datasets are the same as in slide 19 of chapter 02-03: Linear and logistic regression
     anscombe = sns.load_dataset("anscombe")
@@ -201,7 +212,7 @@ def anscombe_quartet():
         results["R2"].append(evaluation_metrics["R2"])
         results["RMSE"].append(evaluation_metrics["RMSE"])
         results["MAE"].append(evaluation_metrics["MAE"])
-    return anscombe, datasets, models, results
+    return (anscombe, datasets, models, results)
 
 
 # Go to the notebook to visualize the results
