@@ -37,14 +37,16 @@ class LinearRegressor:
             X = X.reshape(1, -1)
 
         # TODO: Train linear regression model with only one coefficient
-        meanX = np.mean(X)
-        meanY = np.mean(y)
         n = len(X)
-        s_xy = np.sum((X-meanX)*(y-meanY))
-        s_x = np.sum((X-meanX)**2)
+
+        meanX = np.sum(X)/n
+        meanY = np.sum(y)/len(y)
+        
+        s_xy = np.sum((X-meanX)*(y-meanY))/(n-1)
+        s_x = np.sum((X-meanX)**2)/(n-1)
 
         self.coefficients = s_xy/s_x
-        self.intercept = meanY - meanX*self.coefficients
+        self.intercept = np.mean(y) - np.mean(X)*self.coefficients
 
     # This part of the model you will only need for the last part of the notebook
     def fit_multiple(self, X, y):
@@ -93,6 +95,8 @@ class LinearRegressor:
             X = np.hstack([ones, X])
             w = np.hstack([self.intercept, self.coefficients])
             predictions = np.dot(X,w) 
+
+            print(predictions)
         return predictions
 
 
@@ -172,7 +176,7 @@ def anscombe_quartet():
 
     # Anscombe's quartet consists of four datasets
     # TODO: Construct an array that contains, for each entry, the identifier of each dataset
-    datasets = ["I", "II", "III", "IV"]
+    datasets = anscombe["dataset"].unique()
     
     models = {}
     results = {"R2": [], "RMSE": [], "MAE": []}
